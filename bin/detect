@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bin/use <build-dir>
+
+# this pack is valid for all apps
+echo "gcc"
+exit 0
