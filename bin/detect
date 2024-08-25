@@ -2,5 +2,5 @@
 # bin/use <build-dir>
 
 # this pack is valid for all apps
-echo "gcc"
+echo "gcc-6"
 exit 0

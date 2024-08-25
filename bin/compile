@@ -4,44 +4,41 @@
 # fail fast
 set -e
 
-# Variables for GCC version and dependencies
-GCC_VERSION="13.2.0"
-GMP_VERSION="6.2.1"
-MPFR_VERSION="4.2.0"
-MPC_VERSION="1.3.1"
 
-# clone gcc-13
-echo "-----> Downloading gcc $GCC_VERSION files"
+
+# clone gcc-6
+echo "-----> Downloading gcc 6.4.0 files"
 BUILD_DIR=$1
 cd $BUILD_DIR/vendor
-wget https://ftp.gnu.org/gnu/gcc/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.gz
-tar -zxvf gcc-$GCC_VERSION.tar.gz
-rm -f gcc-$GCC_VERSION.tar.gz
+wget http://www.netgull.com/gcc/releases/gcc-6.4.0/gcc-6.4.0.tar.gz
+tar -zxvf gcc-6.4.0.tar.gz
+rm -f gcc-6.4.0.tar.gz
 
-echo "-----> Downloading gmp $GMP_VERSION files"
-wget https://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz
-tar -xf gmp-$GMP_VERSION.tar.xz
-mv gmp-$GMP_VERSION gcc-$GCC_VERSION/gmp
+echo "-----> Downloading gmp 6.1.0 files"
+wget ftp://gcc.gnu.org/pub/gcc/infrastructure/gmp-6.1.0.tar.bz2
+tar -xvf gmp-6.1.0.tar.bz2
+mv gmp-6.1.0 gcc-6.4.0/gmp
 
-echo "-----> Downloading mpfr $MPFR_VERSION files"
-wget https://www.mpfr.org/mpfr-$MPFR_VERSION/mpfr-$MPFR_VERSION.tar.xz
-tar -xf mpfr-$MPFR_VERSION.tar.xz
-mv mpfr-$MPFR_VERSION gcc-$GCC_VERSION/mpfr
+echo "-----> Downloading mpfr 3.1.4 files"
+wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpfr-3.1.4.tar.bz2
+tar -xvf mpfr-3.1.4.tar.bz2
+mv mpfr-3.1.4 gcc-6.4.0/mpfr
 
-echo "-----> Downloading mpc $MPC_VERSION files"
-wget https://ftp.gnu.org/gnu/mpc/mpc-$MPC_VERSION.tar.gz
-tar -zxvf mpc-$MPC_VERSION.tar.gz
-mv mpc-$MPC_VERSION gcc-$GCC_VERSION/mpc
+echo "-----> Downloading mpc 1.0.3 files"
+wget ftp://gcc.gnu.org/pub/gcc/infrastructure/mpc-1.0.3.tar.gz
+tar -zxvf mpc-1.0.3.tar.gz
+mv mpc-1.0.3 gcc-6.4.0/mpc
 
 echo "-----> Making..."
-mkdir gcc-$GCC_VERSION-build
-cd gcc-$GCC_VERSION-build
-../gcc-$GCC_VERSION/configure --prefix=/opt/gcc-$GCC_VERSION/ --disable-multilib --enable-languages=c,c++
+mkdir gcc-6.4.0-build
+cd gcc-6.4.0-build
+../gcc-6.4.0/configure --prefix=/opt/gcc-6.4.0/ --disable-multilib --enable-languages=c
 
-make -j$(nproc)
+make
 make install
+
 
 echo "-----> Cleaning up..."
 cd ..
-rm -rf gcc-$GCC_VERSION
-rm -rf gcc-$GCC_VERSION-build
+rm -rf gcc-6.4.0
+rm -rf gcc-6.4.0-build
